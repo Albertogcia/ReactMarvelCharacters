@@ -27,19 +27,28 @@ export const setItem = item => {
 };
 
 export const getList = () => {
-    return async (dispatch, getState) => {
-      try {
-        dispatch(setLoading(true));
+  return async (dispatch, getState) => {
+    try {
+      dispatch(setLoading(true));
 
-        const charactersResponse = await api.getCharacters(0,20);
-        
-        const list = charactersResponse.data?.data?.results || [];
-  
-        dispatch(setList(list))
-      } catch (e) {
-        Alert.alert('Error', e.message || 'Ha ocurrido un error obteniendo los datos');
-      } finally {
-        dispatch(setLoading(false));
-      }
-    };
+      const charactersResponse = await api.getCharacters(0, 20);
+
+      const list =
+        charactersResponse.data?.data?.results.map(character => {
+          return {
+            ...character,
+            imageUrl: `${character.thumbnail?.path}/portrait_fantastic.${character.thumbnail?.extension}`,
+          };
+        }) || [];
+      console.log({list});
+      dispatch(setList(list));
+    } catch (e) {
+      Alert.alert(
+        'Error',
+        e.message || 'Ha ocurrido un error obteniendo los datos',
+      );
+    } finally {
+      dispatch(setLoading(false));
+    }
   };
+};

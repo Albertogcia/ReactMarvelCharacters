@@ -5,11 +5,11 @@ import styles from './styles';
 class CharacterCard extends Component {
   render() {
     
-    const source = {uri: `${this.props.character.thumbnail?.path}/portrait_xlarge.${this.props.character.thumbnail?.extension}`};
+    const source = {uri: `${this.props.character.imageUrl}`};
 
     return (
       <TouchableOpacity
-        //onPress={() => this.props.onPress(this.props.character)}
+        onPress={() => this.props.onPress(this.props.character)}
         style={styles.card}>
         <Image style={styles.image} source={source}/>
         <View style={styles.textContainer}>
