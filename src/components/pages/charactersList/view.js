@@ -13,6 +13,11 @@ class Characters extends Component {
     this.props.initList();
   };
 
+  onCharacterPress = character => {
+    this.props.setItem(character);
+    Actions.push('CharacterDetails', {title: character?.name || ''});
+  };
+
   render() {
     return (
         <SafeAreaView>
@@ -30,6 +35,7 @@ class Characters extends Component {
             renderItem={({item}) => (
               <CharacterCard
                 character={item}
+                onPress={this.onCharacterPress}
               />
             )}
           />
