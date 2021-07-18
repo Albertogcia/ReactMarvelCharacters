@@ -26,6 +26,7 @@ class Characters extends Component {
   reloadList = () => {
     this.state.offset = 0;
     this.props.getCharacters(this.state.offset, this.state.limit);
+    this.state.offset += this.state.limit;
   };
 
   getMoreCharacters = () => {
