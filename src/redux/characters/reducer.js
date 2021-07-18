@@ -8,6 +8,12 @@ const initialState = {
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
+    case types.ADD_NEW_CHARACTER:
+      state.list.push(action.payload?.character)
+      return {
+        ...state
+      };
+
     case types.UPDATE_CHARACTERS_LIST:
       return {
         ...state,

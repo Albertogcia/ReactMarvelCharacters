@@ -9,5 +9,5 @@ const aInstance = axios.create({
 
 export const getCharacters = (offset, limit) => {
   const url = '/v1/public/characters';
-  return aInstance.get(url, {offset: offset, limit: limit});
+  return aInstance.get(url, {params: {offset: offset, limit: limit}});
 };

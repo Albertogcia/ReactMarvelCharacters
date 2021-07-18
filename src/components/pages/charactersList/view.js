@@ -7,10 +7,15 @@ import styles from './styles';
 class Characters extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      offset: 0,
+      limit: 20,
+    };
   }
 
   componentDidMount = () => {
-    this.props.initList();
+    this.props.getCharacters(this.state.offset, this.state.limit);
+    this.state.offset += this.state.limit;
   };
 
   onCharacterPress = character => {
@@ -18,28 +23,39 @@ class Characters extends Component {
     Actions.push('CharacterDetails', {title: character?.name || ''});
   };
 
+  reloadList = () => {
+    this.state.offset = 0;
+    this.props.getCharacters(this.state.offset, this.state.limit);
+  };
+
+  getMoreCharacters = () => {
+    if (!this.props.loading) {
+      this.props.getCharacters(this.state.offset, this.state.limit);
+      this.state.offset += this.state.limit;
+    }
+  };
+
   render() {
     return (
-        <SafeAreaView>
-          <FlatList
-            data={this.props.list}
-            keyExtractor={item => `character-card-${item.id}`}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.props.loading}
-                onRefresh={this.props.initList}
-                colors={['black']}
-                tintColor={'black'}
-              />
-            }
-            renderItem={({item}) => (
-              <CharacterCard
-                character={item}
-                onPress={this.onCharacterPress}
-              />
-            )}
-          />
-        </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={this.props.list}
+          keyExtractor={item => `character-card-${item.id}`}
+          onEndReachedThreshold={0.5}
+          onEndReached={this.getMoreCharacters}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.loading}
+              onRefresh={this.reloadList}
+              colors={['black']}
+              tintColor={'black'}
+            />
+          }
+          renderItem={({item}) => (
+            <CharacterCard character={item} onPress={this.onCharacterPress} />
+          )}
+        />
+      </SafeAreaView>
     );
   }
 }

@@ -14,8 +14,8 @@ const mapDispatchToProps = dispatch => {
     setLoading: value => {
       dispatch(charactersActions.setLoading(value));
     },
-    initList: () => {
-      dispatch(charactersActions.getList());
+    getCharacters: (offset, limit) => {
+      dispatch(charactersActions.getCharacters(offset, limit));
     },
     setItem: value => {
       dispatch(charactersActions.setItem(value));
